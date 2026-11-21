@@ -2,578 +2,569 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Natal na Baviera</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Baviera 2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#1B4332">
 <style>
-/* Ideia: um quadro de horários de estação (Fahrplan) para uma viagem de trem pelos Alpes.
-   Painel escuro de partidas no topo, cadernos de contas claros embaixo. Azul de fiorde, âmbar de vela. */
-:root{
-  --snow:#EEF2F5; --card:#FFFFFF; --ink:#0E1B26; --mute:#556672; --line:#D2DCE3; --soft:#E5ECF1;
-  --fjord:#1C4E6D; --on-fjord:#FFFFFF; --amber:#A85F05; --good:#1F7A4D; --warn:#B4531A;
-  --board:#0E2230; --board2:#16303F; --board-ink:#EAF1F5; --board-mute:#8FA7B5; --board-amber:#F2B04A;
-  --c1:#1C4E6D; --c2:#B86A06; --c3:#1F7A4D; --c4:#7A3E7C; --c5:#5B6B76;
-  --display:'Bricolage Grotesque',system-ui,sans-serif; --body:'Figtree',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
-  color-scheme:light;
+:root {
+  --bg: #FAFAF8; --surface: #FFFFFF; --ink: #1A1A1A; --muted: #6B6B6B; --border: #E8E5E0;
+  --accent: #1B4332; --accent-soft: #D8F3DC; --accent-on: #FFFFFF;
+  --gold: #B8860B; --gold-soft: #FFF8E7; --gold-on: #5C4300;
+  --good: #2D6A4F; --warn: #BC4749; --warn-soft: #FFE8E8;
+  --c1: #1B4332; --c2: #B8860B; --c3: #6C567B; --c4: #3A6EA5; --c5: #C44536;
+  --display: 'DM Serif Display', Georgia, serif;
+  --body: 'DM Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  color-scheme: light;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --snow:#0A141B; --card:#112029; --ink:#E7EEF2; --mute:#93A6B2; --line:#24384400; --soft:#182B37;
-    --line:#243844; --fjord:#6FB2D8; --on-fjord:#0A141B; --amber:#F0A83C; --good:#58C48C; --warn:#F08A55;
-    --board:#07131B; --board2:#102532;
-    --c1:#6FB2D8; --c2:#F0A83C; --c3:#58C48C; --c4:#C58BD0; --c5:#A4B4BE;
-    color-scheme:dark;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F0F0E; --surface: #1A1A18; --ink: #E8E5E0; --muted: #8A8A82; --border: #2A2A26;
+    --accent: #52B788; --accent-soft: #1B3328; --accent-on: #0F0F0E;
+    --gold: #DAA520; --gold-soft: #2A2210; --gold-on: #FFF8E7;
+    --good: #52B788; --warn: #E07A5F; --warn-soft: #2A1A18;
+    --c1: #52B788; --c2: #DAA520; --c3: #A78BBA; --c4: #6BAED6; --c5: #E07A5F;
+    color-scheme: dark;
   }
 }
-:root[data-theme="dark"]{
-  --snow:#0A141B; --card:#112029; --ink:#E7EEF2; --mute:#93A6B2; --line:#243844; --soft:#182B37;
-  --fjord:#6FB2D8; --on-fjord:#0A141B; --amber:#F0A83C; --good:#58C48C; --warn:#F08A55;
-  --board:#07131B; --board2:#102532;
-  --c1:#6FB2D8; --c2:#F0A83C; --c3:#58C48C; --c4:#C58BD0; --c5:#A4B4BE;
-  color-scheme:dark;
+:root[data-theme="dark"] {
+  --bg: #0F0F0E; --surface: #1A1A18; --ink: #E8E5E0; --muted: #8A8A82; --border: #2A2A26;
+  --accent: #52B788; --accent-soft: #1B3328; --accent-on: #0F0F0E;
+  --gold: #DAA520; --gold-soft: #2A2210; --gold-on: #FFF8E7;
+  --good: #52B788; --warn: #E07A5F; --warn-soft: #2A1A18;
+  --c1: #52B788; --c2: #DAA520; --c3: #A78BBA; --c4: #6BAED6; --c5: #E07A5F;
+  color-scheme: dark;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-html,body{margin:0}
-body{background:var(--snow);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.08}
-p{margin:0}
-a{color:var(--fjord)}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-
-/* navegação */
-.nav{position:sticky;top:0;z-index:5;background:var(--board);border-bottom:1px solid var(--board2)}
-.nav div{max-width:1040px;margin:0 auto;padding:0 12px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
-.nav a{color:var(--board-mute);text-decoration:none;font-size:14px;font-weight:600;padding:14px 10px;white-space:nowrap;border-bottom:2px solid transparent}
-.nav a:hover{color:var(--board-ink)}
-.nav a:focus-visible{outline:2px solid var(--board-amber);outline-offset:-2px}
-
-/* quadro de partidas */
-.hero{background:var(--board);color:var(--board-ink);position:relative;overflow:hidden}
-.hero-in{max-width:1040px;margin:0 auto;padding:44px 16px 96px;display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:end;position:relative;z-index:1}
-.hero h1{font-size:clamp(40px,8vw,84px);font-weight:700;letter-spacing:-.025em}
-.hero h1 em{font-style:normal;color:var(--board-amber)}
-.hero p.lead{color:var(--board-mute);margin-top:14px;max-width:46ch}
-.board{background:var(--board2);border:1px solid #24475b;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
-.brow{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:13px;color:var(--board-mute);text-transform:uppercase;letter-spacing:.06em}
-.route-line{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:28px;font-weight:600;letter-spacing:.02em}
-.route-line i{flex:1;border-top:2px dashed #3a5e72;position:relative;top:1px}
-.flaps{display:flex;gap:6px;align-items:center}
-.flap{width:42px;height:62px;border-radius:7px;background:linear-gradient(#1d3b4d 0 49%,#122a39 51% 100%);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:40px;font-weight:600;color:var(--board-amber);position:relative}
-.flap::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:#0a1a24}
-.flaps small{font-family:var(--mono);font-size:13px;color:var(--board-mute);text-transform:uppercase;margin-left:8px;letter-spacing:.06em}
-.ridge{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:96px;color:var(--snow)}
-.ridge .back{color:var(--board2)}
-
-.wrap{max-width:1040px;margin:0 auto;padding:12px 16px 72px;display:flex;flex-direction:column;gap:56px}
-section{display:flex;flex-direction:column;gap:16px}
-h2{font-size:clamp(26px,4.5vw,36px);font-weight:700;letter-spacing:-.015em}
-h2 span{display:block;font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
-.intro{color:var(--mute);max-width:64ch}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.note{font-size:13px;color:var(--mute)}
-
-/* resumo */
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
-.tile span{font-size:13px;color:var(--mute)}
-.tile b{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:-.02em}
-.tile.key{background:var(--fjord);border-color:var(--fjord)}
-.tile.key span{color:var(--on-fjord);opacity:.8}
-.tile.key b{color:var(--on-fjord)}
-.bar{height:12px;border-radius:999px;background:var(--soft);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--good);border-radius:999px;transition:width .3s}
-.barlbl{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--mute);margin-top:6px;font-family:var(--mono)}
-
-/* controles */
-.seg{display:flex;flex-wrap:wrap;gap:8px}
-.seg button{font:inherit;font-weight:600;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--fjord);border-color:var(--fjord);color:var(--on-fjord)}
-.row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
-label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mute)}
-input[type=number],input[type=date],input[type=text],select{font:inherit;color:var(--ink);background:var(--snow);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;width:100%}
-input:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--fjord);outline-offset:2px}
-.chk{display:flex;gap:8px;align-items:center;font-size:15px}
-.chk input{width:18px;height:18px;accent-color:var(--fjord)}
-.btn{font:inherit;font-weight:600;padding:10px 18px;border-radius:10px;border:0;background:var(--fjord);color:var(--on-fjord);cursor:pointer}
-.btn.ghost{background:transparent;color:var(--mute);border:1px solid var(--line);padding:4px 10px;font-weight:500;font-size:13px}
-.scen-note{color:var(--mute);font-size:15px;max-width:70ch}
-
-/* tabela */
-.scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:540px}
-th{font-family:var(--mono);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);text-align:left;padding:6px 8px}
-td{padding:9px 8px;border-top:1px solid var(--line);vertical-align:middle}
-td small{display:block;color:var(--mute);font-size:13px}
-.num{text-align:right;font-family:var(--mono);white-space:nowrap}
-.unit{display:flex;align-items:center;gap:6px}
-.unit span{color:var(--mute);min-width:1.4em;font-family:var(--mono)}
-.unit input{max-width:116px;text-align:right;font-family:var(--mono)}
-.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
-tfoot td{font-weight:700;font-size:18px;border-top:2px solid var(--ink)}
-
-/* barra empilhada */
-.stack{display:flex;height:34px;border-radius:8px;overflow:hidden;background:var(--soft)}
-.stack i{display:block;height:100%;min-width:2px}
-.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 16px;margin-top:12px;font-size:14px}
-.legend div{display:flex;justify-content:space-between;gap:8px}
-.legend b{font-family:var(--mono);font-weight:500}
-
-/* roteiro */
-.tt{display:flex;flex-direction:column}
-.day{display:grid;grid-template-columns:92px 1fr auto;gap:16px;padding:16px 0;border-top:1px solid var(--line);align-items:start}
-.day:first-child{border-top:0}
-.day .when{font-family:var(--mono)}
-.day .when b{display:block;font-size:22px;font-weight:600;line-height:1}
-.day .when span{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
-.day .city{font-family:var(--mono);font-size:12px;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.day h3{font-size:19px;margin:2px 0 4px}
-.day p{color:var(--mute);font-size:15px;max-width:62ch}
-.night{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--soft);color:var(--ink);white-space:nowrap;align-self:start}
-.night.free{background:var(--good);color:#fff}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .night.free{color:#07131B}}
-:root[data-theme="dark"] .night.free{color:#07131B}
-.day.cut.dim{opacity:.45}
-.cuttag{font-family:var(--mono);font-size:11px;color:var(--warn);text-transform:uppercase;letter-spacing:.05em}
-
-/* metas, listas */
-.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.res div{background:var(--soft);border-radius:10px;padding:14px 16px}
-.res b{display:block;font-family:var(--mono);font-size:26px;font-weight:600;color:var(--fjord)}
-.res span{font-size:13px;color:var(--mute)}
-ul.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-ul.list li{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}
-ul.list li:first-child{border-top:0}
-.dep b{font-family:var(--mono);font-weight:600}
-.dep small{color:var(--mute);display:block}
-.empty{color:var(--mute);padding:6px 0}
-.todo li{align-items:flex-start;justify-content:flex-start}
-.todo label{display:flex;gap:10px;cursor:pointer;align-items:flex-start}
-.todo input{width:18px;height:18px;margin-top:3px;accent-color:var(--fjord);flex:none}
-.todo small{display:block;color:var(--mute);font-size:13px}
-.todo li.done label>span{text-decoration:line-through;color:var(--mute)}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
-.cols h3{font-size:18px;margin-bottom:6px}
-.cat{display:flex;flex-direction:column;gap:6px;margin-top:6px}
-.cat .line{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:14px}
-.cat .line .bar{grid-column:1/-1;height:8px}
-.cat .line .bar i{background:var(--fjord)}
-.cat .over .bar i{background:var(--warn)}
-.phr{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
-.phr div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.phr b{display:block;font-family:var(--display);font-size:18px}
-.phr span{display:block;font-size:14px;color:var(--mute)}
-.phr em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--amber)}
-.src{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
-.src ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--mute)}
-.src li{margin:3px 0}
-.status{font-size:13px;color:var(--mute);text-align:center}
-
-@media (max-width:760px){
-  .hero-in{grid-template-columns:1fr;padding-bottom:88px}
-  .day{grid-template-columns:62px 1fr}
-  .day .night{grid-column:2;justify-self:start}
-  .flap{width:36px;height:54px;font-size:34px}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.6;
+  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(16px, env(safe-area-inset-left, 0px));
+  -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent;
 }
-@media (prefers-reduced-motion:reduce){.bar i{transition:none}html{scroll-behavior:auto}}
+h1,h2,h3 { font-family: var(--display); margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+button { font: inherit; cursor: pointer; }
+input, select { font: inherit; color: var(--ink); }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+  display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+  margin: 0 -16px; padding-inline: 16px;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600;
+  padding: 12px 12px; white-space: nowrap; letter-spacing: .02em;
+  border-bottom: 2px solid transparent; transition: color .15s;
+}
+.nav a:hover, .nav a:active { color: var(--ink); }
+
+/* ── HERO ── */
+.hero { padding: 32px 0 24px; }
+.hero h1 { font-size: clamp(32px, 8vw, 56px); letter-spacing: -.02em; }
+.hero h1 em { font-style: normal; color: var(--gold); }
+.hero .lead { color: var(--muted); margin-top: 8px; font-size: 15px; max-width: 48ch; }
+.hero-meta {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;
+  font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums;
+}
+.chip {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 7px 12px;
+}
+.chip b { font-weight: 600; }
+.live { width: 6px; height: 6px; border-radius: 50%; background: var(--good); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+@media (prefers-reduced-motion:reduce) { .live { animation: none; } }
+
+/* ── DASHBOARD ── */
+.dash { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 20px; }
+.tile {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; display: flex; flex-direction: column; gap: 2px;
+}
+.tile .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 500; }
+.tile .val { font-family: var(--mono); font-size: 22px; font-weight: 600; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.tile.hero-tile { background: var(--accent); border-color: var(--accent); }
+.tile.hero-tile .label { color: var(--accent-on); opacity: .8; }
+.tile.hero-tile .val { color: var(--accent-on); }
+.progress-wrap { margin-top: 10px; }
+.progress-bar { height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.progress-bar i { display: block; height: 100%; border-radius: 999px; background: var(--good); transition: width .4s; }
+.progress-labels {
+  display: flex; justify-content: space-between; gap: 8px; margin-top: 5px;
+  font-family: var(--mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+
+/* ── SECTIONS ── */
+.section { padding: 32px 0; border-top: 1px solid var(--border); }
+.section-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  cursor: pointer; -webkit-user-select: none; user-select: none;
+}
+.section-head h2 { font-size: clamp(20px, 4vw, 28px); }
+.section-head .arrow {
+  width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--surface); display: grid; place-items: center; flex: none;
+  transition: transform .2s;
+}
+.section-head .arrow svg { width: 12px; height: 12px; color: var(--muted); }
+.section[aria-expanded="false"] .arrow { transform: rotate(-90deg); }
+.section[aria-expanded="false"] .section-body { display: none; }
+.section-body { margin-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+.sub { color: var(--muted); font-size: 13px; max-width: 56ch; }
+
+/* ── FORMS ── */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.field .lbl { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+.field input, .field select {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
+  padding: 8px 10px; min-width: 0; width: 100%;
+}
+.field input:focus, .field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.btn {
+  font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 0;
+  background: var(--accent); color: var(--accent-on); font-size: 13px;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-sm {
+  font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+}
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button {
+  font-weight: 600; padding: 7px 12px; border-radius: 8px; font-size: 12px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+}
+.seg button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-on); }
+.chk { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.chk input { width: 17px; height: 17px; accent-color: var(--accent); }
+
+/* ── TABLE ── */
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; min-width: 440px; }
+th { font-family: var(--mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); text-align: left; padding: 5px 6px; }
+td { padding: 8px 6px; border-top: 1px solid var(--border); vertical-align: middle; font-size: 14px; }
+td small { display: block; color: var(--muted); font-size: 12px; }
+.num { text-align: right; font-family: var(--mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.unit { display: flex; align-items: center; gap: 4px; }
+.unit span { color: var(--muted); min-width: 1.2em; font-family: var(--mono); font-size: 13px; }
+.unit input { max-width: 100px; text-align: right; font-family: var(--mono); font-size: 14px; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+tfoot td { font-weight: 700; border-top: 2px solid var(--ink); }
+
+/* ── STACKED BAR ── */
+.stack { display: flex; height: 24px; border-radius: 7px; overflow: hidden; background: var(--border); }
+.stack i { display: block; height: 100%; min-width: 2px; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 4px 12px; margin-top: 8px; font-size: 12px; }
+.legend div { display: flex; justify-content: space-between; gap: 6px; }
+.legend b { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* ── TIMELINE ── */
+.timeline { display: flex; flex-direction: column; }
+.day {
+  display: grid; grid-template-columns: 60px 1fr; gap: 4px 12px;
+  padding: 12px 0; border-top: 1px solid var(--border); align-items: start;
+}
+.day:first-child { border-top: 0; }
+.day .when { font-family: var(--mono); }
+.day .when b { display: block; font-size: 18px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.day .when span { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.day .city { font-family: var(--mono); font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.day h3 { font-size: 16px; margin: 1px 0 2px; }
+.day p { color: var(--muted); font-size: 13px; max-width: 50ch; }
+.night {
+  font-size: 11px; padding: 2px 8px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--ink); white-space: nowrap; display: inline-block;
+  font-family: var(--mono); margin-top: 4px;
+}
+.night.free { background: var(--accent); border-color: var(--accent); color: var(--accent-on); }
+.day.cut.dim { opacity: .4; }
+.cuttag { font-family: var(--mono); font-size: 10px; color: var(--warn); text-transform: uppercase; letter-spacing: .05em; margin-top: 3px; }
+
+/* ── LISTS ── */
+.dep-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.dep-list li { display: flex; gap: 8px; align-items: center; justify-content: space-between; padding: 9px 0; border-top: 1px solid var(--border); }
+.dep-list li:first-child { border-top: 0; }
+.dep-list b { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+.dep-list small { color: var(--muted); display: block; font-size: 12px; }
+.empty { color: var(--muted); padding: 6px 0; font-size: 13px; }
+
+/* ── EXPENSES ── */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.cat-bars { display: flex; flex-direction: column; gap: 6px; }
+.cat-line { display: grid; grid-template-columns: 1fr auto; gap: 2px 6px; font-size: 12px; }
+.cat-line .bar { grid-column: 1/-1; height: 5px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.cat-line .bar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.cat-line.over .bar i { background: var(--warn); }
+
+/* ── CHECKLIST ── */
+.todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.todo li { display: flex; padding: 7px 0; border-top: 1px solid var(--border); align-items: flex-start; }
+.todo li:first-child { border-top: 0; }
+.todo label { display: flex; gap: 8px; cursor: pointer; align-items: flex-start; font-size: 14px; }
+.todo input { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--accent); flex: none; }
+.todo small { display: block; color: var(--muted); font-size: 12px; }
+.todo li.done label>span { text-decoration: line-through; color: var(--muted); }
+.pack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.pack-grid h3 { font-size: 15px; margin-bottom: 4px; }
+
+/* ── PHRASES ── */
+.phrases { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
+.phrases>div { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.phrases b { display: block; font-family: var(--display); font-size: 16px; }
+.phrases .meaning { font-size: 13px; color: var(--muted); }
+.phrases em { font-style: normal; font-family: var(--mono); font-size: 10px; color: var(--gold); }
+
+/* ── MISC ── */
+.note { font-size: 12px; color: var(--muted); }
+.sources { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.sources ul { margin: 4px 0 0; padding-left: 16px; font-size: 12px; color: var(--muted); }
+.sources li { margin: 2px 0; }
+.status-line { font-size: 11px; color: var(--muted); text-align: center; padding: 20px 0 max(12px, env(safe-area-inset-bottom, 0px)); }
+
+@media (max-width:400px) {
+  .hero h1 { font-size: 28px; }
+  .dash { grid-template-columns: 1fr 1fr; }
+  .tile .val { font-size: 19px; }
+}
 </style>
 </head>
 <body>
 
-<nav class="nav" aria-label="Seções"><div>
-  <a href="#resumo">Resumo</a><a href="#orcamento">Orçamento</a><a href="#roteiro">Roteiro</a><a href="#metas">Metas</a><a href="#depositos">Depósitos</a><a href="#viagem">Na viagem</a><a href="#checklist">Checklist</a><a href="#mala">Mala</a><a href="#alemao">Alemão</a><a href="#base">Base dos números</a>
-</div></nav>
+<nav class="nav" aria-label="Seções">
+  <a href="#financeiro">Financeiro</a>
+  <a href="#orcamento">Orçamento</a>
+  <a href="#poupanca">Poupança</a>
+  <a href="#roteiro">Roteiro</a>
+  <a href="#viagem">Na viagem</a>
+  <a href="#preparativos">Preparativos</a>
+  <a href="#referencia">Referência</a>
+</nav>
 
 <header class="hero">
-  <div class="hero-in">
-    <div>
-      <h1>Natal na <em>Baviera</em></h1>
-      <p class="lead">Viagem solo de 3 a 21 de dezembro de 2027. Villach como base, vilas dos Alpes, mercados de Natal e neve, com Munique no fim.</p>
-    </div>
-    <div class="board" aria-label="Quadro de partida">
-      <div class="brow"><span>Partida</span><span>03.12.2027</span></div>
-      <div class="route-line"><span>GRU</span><i></i><span>MUC</span></div>
-      <div class="flaps" id="flaps" aria-live="polite"></div>
-    </div>
+  <h1>Natal na <em>Baviera</em></h1>
+  <p class="lead">Viagem solo, 3 a 21 de dezembro de 2027. Villach como base, vilas dos Alpes, mercados de Natal e Munique no fim.</p>
+  <div class="hero-meta">
+    <div class="chip"><b>GRU → MUC</b></div>
+    <div class="chip"><span id="countdown">–</span> dias</div>
+    <div class="chip"><span class="live"></span> € 1 = R$ <b id="fx-live">–</b></div>
+    <div class="chip">18 dias</div>
   </div>
-  <svg class="ridge" viewBox="0 0 1200 96" preserveAspectRatio="none" aria-hidden="true">
-    <path class="back" d="M0 96V58l90-26 70 20 120-40 110 46 90-30 130 38 120-44 100 36 110-28 150 40 110-22V96z" fill="currentColor"/>
-    <path d="M0 96V74l110-22 80 16 140-34 110 38 130-26 120 30 140-36 110 34 120-20 140 28V96z" fill="currentColor"/>
-  </svg>
 </header>
 
-<main class="wrap">
+<div id="financeiro">
+  <div class="dash">
+    <div class="tile"><span class="label">Custo total</span><span class="val" id="t-total">–</span></div>
+    <div class="tile"><span class="label">Guardado</span><span class="val" id="t-saved">–</span></div>
+    <div class="tile"><span class="label">Falta</span><span class="val" id="t-left">–</span></div>
+    <div class="tile hero-tile"><span class="label">Por mês</span><span class="val" id="t-month">–</span></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar" role="progressbar" id="bar"><i id="bar-i" style="width:0%"></i></div>
+    <div class="progress-labels"><span id="bar-l">0%</span><span id="bar-r">–</span></div>
+  </div>
+</div>
 
-<section id="resumo" aria-labelledby="h-resumo">
-  <h2 id="h-resumo"><span>01 · Resumo</span>Onde você está hoje</h2>
-  <div class="tiles">
-    <div class="tile"><span>Total da viagem</span><b id="t-total">-</b></div>
-    <div class="tile"><span>Já guardado</span><b id="t-saved">-</b></div>
-    <div class="tile"><span>Falta guardar</span><b id="t-left">-</b></div>
-    <div class="tile key"><span>Guardar por mês</span><b id="t-month">-</b></div>
-  </div>
-  <div>
-    <div class="bar" role="progressbar" aria-label="Progresso da meta" aria-valuemin="0" aria-valuemax="100" id="bar"><i id="bar-i" style="width:0%"></i></div>
-    <div class="barlbl"><span id="bar-l">0% da meta</span><span id="bar-r"></span></div>
-  </div>
-</section>
-
-<section id="orcamento" aria-labelledby="h-orc">
-  <h2 id="h-orc"><span>02 · Orçamento</span>Quanto custa, item por item</h2>
-  <p class="intro">Escolha o cenário e ajuste qualquer valor. Os itens em euro usam o câmbio abaixo. Tudo o que está aqui é estimativa, menos o que a seção "Base dos números" marca como visto.</p>
-  <div class="seg" id="seg" role="group" aria-label="Cenário"></div>
-  <p class="scen-note" id="scen-note"></p>
-  <div class="card row">
-    <label class="f" for="fx">Euro em reais<input id="fx" type="number" inputmode="decimal" step="0.01" min="0"></label>
-    <label class="chk" for="folga"><input id="folga" type="checkbox"> Somar 10% de folga para imprevistos</label>
-  </div>
-  <div class="card scroll">
-    <table>
-      <thead><tr><th>Item</th><th>Valor</th><th class="num">Em reais</th></tr></thead>
-      <tbody id="items"></tbody>
-      <tfoot><tr><td colspan="2">Total</td><td class="num" id="foot-total">-</td></tr></tfoot>
-    </table>
-  </div>
-  <div class="card">
-    <div class="stack" id="stack" role="img" aria-label="Divisão do orçamento por categoria"></div>
-    <div class="legend" id="legend"></div>
+<section id="orcamento" class="section" aria-expanded="true">
+  <div class="section-head" role="button" tabindex="0"><h2>Orçamento</h2><span class="arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg></span></div>
+  <div class="section-body">
+    <div class="seg" id="seg"></div>
+    <div class="card row">
+      <label class="field"><span class="lbl">Câmbio €/R$</span><input id="fx" type="number" inputmode="decimal" step="0.01" min="0"></label>
+      <label class="chk"><input id="folga" type="checkbox"> +10% margem</label>
+    </div>
+    <div class="card scroll">
+      <table>
+        <thead><tr><th>Item</th><th>Valor</th><th class="num">R$</th></tr></thead>
+        <tbody id="items"></tbody>
+        <tfoot><tr><td colspan="2">Total</td><td class="num" id="foot-total">–</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="card">
+      <div class="stack" id="stack"></div>
+      <div class="legend" id="legend"></div>
+    </div>
   </div>
 </section>
 
-<section id="roteiro" aria-labelledby="h-rot">
-  <h2 id="h-rot"><span>03 · Roteiro</span>Dia a dia, de Villach a Munique</h2>
-  <p class="intro">Plano de 18 dias. As cinco primeiras noites são em Villach, de graça. Depois são 12 noites de hostel, de vila em vila, até Munique. Horários e preços de trem mudam: confirme na hora de comprar.</p>
-  <div class="card"><div class="tt" id="tt"></div></div>
-  <p class="note" id="rot-note"></p>
-</section>
-
-<section id="metas" aria-labelledby="h-meta">
-  <h2 id="h-meta"><span>04 · Metas</span>Quanto guardar por mês</h2>
-  <div class="card row">
-    <label class="f" for="d-all">Ter tudo guardado até<input id="d-all" type="date"></label>
-    <label class="f" for="d-voo">Comprar a passagem até<input id="d-voo" type="date"></label>
-  </div>
-  <div class="res">
-    <div><b id="m-all">-</b><span id="m-all-s"></span></div>
-    <div><b id="m-voo">-</b><span id="m-voo-s"></span></div>
-  </div>
-  <p class="note">A passagem de dezembro de 2027 ainda não está à venda. Quando abrir, atualize o valor da passagem na tabela do orçamento.</p>
-</section>
-
-<section id="depositos" aria-labelledby="h-dep">
-  <h2 id="h-dep"><span>05 · Depósitos</span>O que você já guardou</h2>
-  <form class="card row" id="form" autocomplete="off">
-    <label class="f" for="dep-data">Data<input id="dep-data" type="date" required></label>
-    <label class="f" for="dep-valor">Valor (R$)<input id="dep-valor" type="number" inputmode="decimal" step="0.01" min="0.01" required></label>
-    <label class="f" for="dep-nota" style="flex:1;min-width:160px">Anotação<input id="dep-nota" type="text" placeholder="Ex.: 13º, freela"></label>
-    <button class="btn" type="submit">Registrar</button>
-  </form>
-  <div class="card"><ul class="list dep" id="deps"></ul></div>
-</section>
-
-<section id="viagem" aria-labelledby="h-via">
-  <h2 id="h-via"><span>06 · Na viagem</span>Diário de gastos em euro</h2>
-  <p class="intro">Use durante a viagem. Cada gasto entra na categoria do orçamento e mostra quanto ainda resta nela.</p>
-  <form class="card row" id="gform" autocomplete="off">
-    <label class="f" for="g-data">Data<input id="g-data" type="date" required></label>
-    <label class="f" for="g-cat">Categoria<select id="g-cat"></select></label>
-    <label class="f" for="g-valor">Valor (€)<input id="g-valor" type="number" inputmode="decimal" step="0.01" min="0.01" required></label>
-    <label class="f" for="g-nota" style="flex:1;min-width:160px">Anotação<input id="g-nota" type="text" placeholder="Ex.: Glühwein, trem Füssen"></label>
-    <button class="btn" type="submit">Anotar</button>
-  </form>
-  <div class="cols">
-    <div class="card"><h3>Por categoria</h3><div class="cat" id="gcat"></div><p class="note" id="gtot" style="margin-top:10px"></p></div>
-    <div class="card"><h3>Últimos gastos</h3><ul class="list dep" id="glist"></ul></div>
+<section id="poupanca" class="section" aria-expanded="true">
+  <div class="section-head" role="button" tabindex="0"><h2>Poupança</h2><span class="arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg></span></div>
+  <div class="section-body">
+    <div class="card row">
+      <label class="field"><span class="lbl">Tudo até</span><input id="d-all" type="date"></label>
+      <label class="field"><span class="lbl">Passagem até</span><input id="d-voo" type="date"></label>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="tile"><span class="label">Meta/mês (total)</span><span class="val" id="m-all">–</span><span class="note" id="m-all-s"></span></div>
+      <div class="tile"><span class="label">Meta/mês (passagem)</span><span class="val" id="m-voo">–</span><span class="note" id="m-voo-s"></span></div>
+    </div>
+    <form class="card row" id="form" autocomplete="off">
+      <label class="field"><span class="lbl">Data</span><input id="dep-data" type="date" required></label>
+      <label class="field"><span class="lbl">Valor R$</span><input id="dep-valor" type="number" inputmode="decimal" step="0.01" min="0.01" required></label>
+      <label class="field" style="flex:1;min-width:120px"><span class="lbl">Nota</span><input id="dep-nota" type="text" placeholder="13º, freela…"></label>
+      <button class="btn" type="submit">Guardar</button>
+    </form>
+    <div class="card"><ul class="dep-list" id="deps"></ul></div>
   </div>
 </section>
 
-<section id="checklist" aria-labelledby="h-chk">
-  <h2 id="h-chk"><span>07 · Checklist</span>O que fazer e quando</h2>
-  <div class="card"><ul class="list todo" id="todo"></ul></div>
-</section>
-
-<section id="mala" aria-labelledby="h-mala">
-  <h2 id="h-mala"><span>08 · Mala</span>Para frio de dezembro nos Alpes</h2>
-  <p class="intro">Em Munique as máximas ficam em torno de 3 a 5 °C, com noites abaixo de zero. Nas montanhas é mais frio. Vista em camadas.</p>
-  <div class="cols" id="mala-cols"></div>
-</section>
-
-<section id="alemao" aria-labelledby="h-al">
-  <h2 id="h-al"><span>09 · Alemão</span>Frases que resolvem</h2>
-  <div class="phr" id="phr"></div>
-  <p class="note">A pronúncia em português é aproximada. Na Áustria também se fala alemão, com algumas palavras próprias, e "Grüß Gott" é uma saudação comum no sul.</p>
-</section>
-
-<section id="base" aria-labelledby="h-base">
-  <h2 id="h-base"><span>10 · Base dos números</span>O que é visto e o que é estimativa</h2>
-  <div class="src">
-    <div class="card"><h3>Visto em consulta</h3><ul>
-      <li>Munique em março de 2027, 2 a 20/03: a partir de R$ 5.452 (Skyscanner, Air Europa via Madri).</li>
-      <li>Frankfurt na mesma época: a partir de R$ 4.581 (Google Flights, TAP via Lisboa).</li>
-      <li>Euro em R$ 6,1748, referência do BCE de 9/11/2026.</li>
-      <li>Neuschwanstein: €21, mais €2,50 de reserva online, com horário marcado. Fecha em 24, 25 e 31/12. Horário de inverno: das 10h às 16h.</li>
-      <li>Munique a Füssen: 2h08 de trem direto. Villach a Munique: cerca de 4 horas, bilhete a partir de ~€20 com antecedência.</li>
-      <li>Mercado da Marienplatz em 2026: 20/11 a 24/12. As datas de 2027 ainda não saíram.</li>
-    </ul></div>
-    <div class="card"><h3>Estimativa minha</h3><ul>
-      <li>Passagem de dezembro de 2027 (R$ 6.500). Os voos ainda não abriram.</li>
-      <li>Hostel a cerca de €35 por noite, comida a €25 por dia e trens entre as vilas.</li>
-      <li>Seguro-viagem, entradas, compras e transporte urbano.</li>
-      <li>Neve: em dezembro é mais provável nas partes altas do que nos vales. Não há garantia.</li>
-      <li>Datas de mercados menores e horários de trem do roteiro: confirme perto da viagem.</li>
-    </ul></div>
+<section id="roteiro" class="section" aria-expanded="true">
+  <div class="section-head" role="button" tabindex="0"><h2>Roteiro</h2><span class="arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg></span></div>
+  <div class="section-body">
+    <p class="sub">5 noites grátis em Villach, depois hostel de vila em vila até Munique.</p>
+    <div class="card"><div class="timeline" id="tt"></div></div>
+    <p class="note" id="rot-note"></p>
   </div>
 </section>
 
-<p class="status" id="save-status"></p>
-</main>
+<section id="viagem" class="section" aria-expanded="false">
+  <div class="section-head" role="button" tabindex="0"><h2>Na viagem</h2><span class="arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg></span></div>
+  <div class="section-body">
+    <form class="card row" id="gform" autocomplete="off">
+      <label class="field"><span class="lbl">Data</span><input id="g-data" type="date" required></label>
+      <label class="field"><span class="lbl">Categoria</span><select id="g-cat"></select></label>
+      <label class="field"><span class="lbl">€</span><input id="g-valor" type="number" inputmode="decimal" step="0.01" min="0.01" required></label>
+      <label class="field" style="flex:1;min-width:100px"><span class="lbl">Nota</span><input id="g-nota" type="text" placeholder="Glühwein…"></label>
+      <button class="btn" type="submit">Anotar</button>
+    </form>
+    <div class="cols">
+      <div class="card"><h3 style="font-size:15px;margin-bottom:6px">Por categoria</h3><div class="cat-bars" id="gcat"></div><p class="note" id="gtot" style="margin-top:6px"></p></div>
+      <div class="card"><h3 style="font-size:15px;margin-bottom:6px">Últimos gastos</h3><ul class="dep-list" id="glist"></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="preparativos" class="section" aria-expanded="false">
+  <div class="section-head" role="button" tabindex="0"><h2>Preparativos</h2><span class="arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg></span></div>
+  <div class="section-body">
+    <h3 style="font-size:16px;margin-bottom:6px">Checklist</h3>
+    <div class="card"><ul class="todo" id="todo"></ul></div>
+    <h3 style="font-size:16px;margin:16px 0 6px">Mala — frio de dezembro</h3>
+    <div class="pack-grid" id="mala-cols"></div>
+  </div>
+</section>
+
+<section id="referencia" class="section" aria-expanded="false">
+  <div class="section-head" role="button" tabindex="0"><h2>Referência</h2><span class="arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg></span></div>
+  <div class="section-body">
+    <h3 style="font-size:16px;margin-bottom:6px">Alemão útil</h3>
+    <div class="phrases" id="phr"></div>
+    <h3 style="font-size:16px;margin:16px 0 6px">Base dos números</h3>
+    <div class="sources">
+      <div class="card"><h3 style="font-size:14px">Visto</h3><ul>
+        <li>GRU → MUC mar/2027: R$ 5.452 (Skyscanner, Air Europa via Madri).</li>
+        <li>Neuschwanstein: €21 + €2,50 reserva. Fecha 24, 25 e 31/12. Inverno: 10h–16h.</li>
+        <li>Munique–Füssen: 2h08. Villach–Munique: ~4h, ~€20 com antecedência.</li>
+      </ul></div>
+      <div class="card"><h3 style="font-size:14px">Estimativa</h3><ul>
+        <li>Passagem dez/2027 (R$ 6.500) — voos não abriram.</li>
+        <li>Hostel ~€35/noite, comida ~€25/dia.</li>
+        <li>Neve: mais provável nas partes altas.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<p class="status-line" id="save-status"></p>
 
 <script>
-/*PURE*/
 const ITEMS=[
-  {id:'voo',nome:'Passagem GRU ⇄ Munique',nota:'Estimativa. Dezembro de 2027 ainda não está à venda.',m:'BRL',cat:'voo'},
-  {id:'seguro',nome:'Seguro-viagem',nota:'Estimativa. Feche perto da viagem.',m:'BRL',cat:'voo'},
-  {id:'hostel',nome:'Hostel',nota:'Noites pagas, a cerca de €35 cada.',m:'EUR',cat:'hostel'},
-  {id:'comida',nome:'Comida e Glühwein',nota:'Valor por dia vezes os dias da viagem.',m:'EUR',cat:'comida'},
-  {id:'trem',nome:'Trem Munique → Villach',nota:'Um trecho, comprado com antecedência.',m:'EUR',cat:'transp'},
-  {id:'locais',nome:'Trens entre as vilas',nota:'Salzburgo, Berchtesgaden, Garmisch, Füssen, Kempten e Munique.',m:'EUR',cat:'transp'},
-  {id:'urbano',nome:'Transporte urbano e aeroporto',nota:'Munique, Salzburgo e Villach.',m:'EUR',cat:'transp'},
-  {id:'entradas',nome:'Entradas e passeios',nota:'Neuschwanstein custa €21 mais €2,50 de reserva.',m:'EUR',cat:'passeio'},
-  {id:'compras',nome:'Compras e comidas diferentes',nota:'Lembranças, doces, um jantar melhor.',m:'EUR',cat:'passeio'}
+  {id:'voo',nome:'Passagem GRU ⇄ MUC',nota:'Dez/2027 — estimativa.',m:'BRL',cat:'voo'},
+  {id:'seguro',nome:'Seguro-viagem',nota:'Feche perto da viagem.',m:'BRL',cat:'voo'},
+  {id:'hostel',nome:'Hostel',nota:'~€35/noite.',m:'EUR',cat:'hostel'},
+  {id:'comida',nome:'Comida e Glühwein',nota:'~€25/dia.',m:'EUR',cat:'comida'},
+  {id:'trem',nome:'Trem Munique → Villach',nota:'Com antecedência.',m:'EUR',cat:'transp'},
+  {id:'locais',nome:'Trens entre vilas',nota:'Salzburgo, Garmisch, Füssen…',m:'EUR',cat:'transp'},
+  {id:'urbano',nome:'Transporte urbano',nota:'Munique, Salzburgo, Villach.',m:'EUR',cat:'transp'},
+  {id:'entradas',nome:'Entradas e passeios',nota:'Neuschwanstein €21 + €2,50.',m:'EUR',cat:'passeio'},
+  {id:'compras',nome:'Compras e lembranças',nota:'Souvenirs, doces.',m:'EUR',cat:'passeio'}
 ];
-const CATS={
-  voo:{nome:'Passagem e seguro',c:'--c1'},
-  hostel:{nome:'Hospedagem',c:'--c2'},
-  comida:{nome:'Comida',c:'--c3'},
-  transp:{nome:'Transporte',c:'--c4'},
-  passeio:{nome:'Passeios e compras',c:'--c5'}
-};
+const CATS={voo:{nome:'Passagem e seguro',c:'--c1'},hostel:{nome:'Hospedagem',c:'--c2'},comida:{nome:'Comida',c:'--c3'},transp:{nome:'Transporte',c:'--c4'},passeio:{nome:'Passeios',c:'--c5'}};
 const SCEN={
-  completa:{label:'Completa, 18 dias',nota:'5 noites grátis em Villach e 12 de hostel. Trens comprados com antecedência, comida a €25 por dia e €200 para compras.',
-    v:{voo:6500,seguro:350,hostel:420,comida:450,trem:40,locais:150,urbano:40,entradas:70,compras:200}},
-  enxuta:{label:'Enxuta, 18 dias',nota:'8 noites grátis em Villach (Salzburgo vira bate-volta) e 9 de hostel. Comida de mercado a €18 por dia, ônibus onde der e €100 para compras.',
-    v:{voo:6500,seguro:350,hostel:315,comida:324,trem:35,locais:115,urbano:40,entradas:60,compras:100}},
-  curta:{label:'Enxuta, 14 dias',nota:'Corta Salzburgo, Berchtesgaden e Kempten e volta em 17/12. 8 noites grátis em Villach e 5 de hostel.',
-    v:{voo:6500,seguro:350,hostel:175,comida:252,trem:35,locais:75,urbano:30,entradas:45,compras:100}}
+  completa:{label:'Completa',v:{voo:6500,seguro:350,hostel:420,comida:450,trem:40,locais:150,urbano:40,entradas:70,compras:200}},
+  enxuta:{label:'Enxuta',v:{voo:6500,seguro:350,hostel:315,comida:324,trem:35,locais:115,urbano:40,entradas:60,compras:100}},
+  curta:{label:'14 dias',v:{voo:6500,seguro:350,hostel:175,comida:252,trem:35,locais:75,urbano:30,entradas:45,compras:100}}
 };
-function brl(item,v,fx){return item.m==='BRL'?v:v*fx}
-function totals(values,fx,folga){
-  let s=0;for(const it of ITEMS){s+=brl(it,Number(values[it.id])||0,fx)}
-  return s*(folga?1.1:1);
-}
-function byCat(values,fx){
-  const o={};for(const k in CATS)o[k]=0;
-  for(const it of ITEMS){o[it.cat]+=brl(it,Number(values[it.id])||0,fx)}
-  return o;
-}
-function monthsUntil(from,to){
-  const d=(to-from)/86400000;
-  return Math.max(1,Math.round(d/30.4375));
-}
-function perMonth(target,saved,months){return Math.max(0,target-saved)/months}
-/*ENDPURE*/
-
 const DAYS=[
-  {d:'03',w:'Sex',c:'São Paulo → Munique',t:'Saída do Brasil',x:'Voo noturno com escala. A noite é no avião.',n:'No avião'},
-  {d:'04',w:'Sáb',c:'Munique → Villach',t:'Chegada e trem para a Áustria',x:'Você pousa e pega o trem Munique → Villach, cerca de 4 horas. Comprando antes, o bilhete pode sair perto de €20.',n:'Villach · grátis',free:1},
-  {d:'05',w:'Dom',c:'Villach',t:'Descanso e centro da cidade',x:'Dia leve para vencer o fuso. Ande pelo centro e procure o mercado de Advento da cidade. Confira as datas.',n:'Villach · grátis',free:1},
-  {d:'06',w:'Seg',c:'Villach',t:'Dia de São Nicolau',x:'6 de dezembro é Nikolaustag em países de língua alemã, com doces e desfiles. Bom dia para ver a tradição local.',n:'Villach · grátis',free:1},
-  {d:'07',w:'Ter',c:'Villach e arredores',t:'Bate-volta perto de casa',x:'Klagenfurt fica perto de Villach e costuma ter mercado de Natal. Confira horários de trem e as datas do mercado.',n:'Villach · grátis',free:1},
-  {d:'08',w:'Qua',c:'Villach e arredores',t:'Dia de montanha, se houver neve',x:'É feriado na Áustria (Imaculada Conceição) e o comércio fecha. Veja a previsão e escolha uma montanha ou lago perto de Villach.',n:'Villach · grátis',free:1},
-  {d:'09',w:'Qui',c:'Villach → Salzburgo',t:'Salzburgo e o mercado',x:'Trem de cerca de 2h25. Cidade antiga e mercado de Natal conhecido. Confirme preço e horário do trem.',n:'Salzburgo · hostel',cut:1},
-  {d:'10',w:'Sex',c:'Salzburgo → Berchtesgaden',t:'Primeira vila alpina na Alemanha',x:'Fica perto de Salzburgo, já em território alemão. Montanhas ao redor e boa chance de neve nas partes altas.',n:'Berchtesgaden · hostel',cut:1},
-  {d:'11',w:'Sáb',c:'Berchtesgaden',t:'Lago Königssee e caminhadas',x:'Dia de natureza. Confirme se o passeio de barco funciona no inverno e leve roupa para neve.',n:'Berchtesgaden · hostel',cut:1},
-  {d:'12',w:'Dom',c:'Berchtesgaden → Garmisch',t:'Dia de trem pelos Alpes',x:'Trecho longo, em geral passando por Munique. Chegue à tarde a Garmisch-Partenkirchen.',n:'Garmisch · hostel'},
-  {d:'13',w:'Seg',c:'Garmisch-Partenkirchen',t:'Vila de esqui a pé',x:'Caminhe pela vila e pelos arredores. A subida ao Zugspitze é cara: veja o preço antes de incluir no plano.',n:'Garmisch · hostel'},
-  {d:'14',w:'Ter',c:'Garmisch → Füssen',t:'Regional até o sul da Baviera',x:'Trem regional com troca. Chegue, deixe a mochila e ande pela cidade velha.',n:'Füssen · hostel'},
-  {d:'15',w:'Qua',c:'Füssen',t:'Castelo de Neuschwanstein',x:'Custa €21 mais €2,50 de reserva online, e só se entra com horário marcado. No inverno abre das 10h às 16h. O mercado de Advento de Füssen fica no pátio do convento de São Mang.',n:'Füssen · hostel'},
-  {d:'16',w:'Qui',c:'Füssen → Kempten',t:'Allgäu e mercado de Natal',x:'Kempten fica a cerca de uma hora e meia a sudoeste de Munique e tem um dos maiores mercados da Baviera.',n:'Kempten · hostel',cut:1},
-  {d:'17',w:'Sex',c:'Kempten → Munique',t:'Chegada a Munique',x:'Trem de cerca de 1h30. Deixe a mochila no hostel e vá ao mercado da Marienplatz à noite.',n:'Munique · hostel'},
-  {d:'18',w:'Sáb',c:'Munique',t:'Centro histórico',x:'Marienplatz, Viktualienmarkt e a vila de contos de fadas na Residenz. Sábado lota: vá cedo.',n:'Munique · hostel'},
-  {d:'19',w:'Dom',c:'Munique',t:'Parques e museus',x:'Englischer Garten e um museu à escolha. Aos domingos o comércio fecha na Alemanha, mas os mercados funcionam.',n:'Munique · hostel'},
-  {d:'20',w:'Seg',c:'Munique',t:'Compras e despedida',x:'Último dia para lembranças e comida típica. Deixe a bagagem pronta para o voo.',n:'Munique · hostel'},
-  {d:'21',w:'Ter',c:'Munique → São Paulo',t:'Voo de volta',x:'Voo à tarde ou à noite, com chegada a São Paulo na manhã seguinte. O mercado da Marienplatz costuma fechar em 24/12.',n:'No avião'}
+  {d:'03',w:'Sex',c:'São Paulo → Munique',t:'Voo noturno',x:'Saída do Brasil com escala.',n:'No avião'},
+  {d:'04',w:'Sáb',c:'Munique → Villach',t:'Trem para a Áustria',x:'~4h de trem. Bilhete ~€20 com antecedência.',n:'Villach · grátis',free:1},
+  {d:'05',w:'Dom',c:'Villach',t:'Descanso e centro',x:'Dia leve para vencer o fuso.',n:'Villach · grátis',free:1},
+  {d:'06',w:'Seg',c:'Villach',t:'Nikolaustag',x:'Dia de São Nicolau — doces e desfiles.',n:'Villach · grátis',free:1},
+  {d:'07',w:'Ter',c:'Villach e arredores',t:'Bate-volta',x:'Klagenfurt fica perto e tem mercado de Natal.',n:'Villach · grátis',free:1},
+  {d:'08',w:'Qua',c:'Villach e arredores',t:'Dia de montanha',x:'Feriado na Áustria. Comércio fecha.',n:'Villach · grátis',free:1},
+  {d:'09',w:'Qui',c:'Villach → Salzburgo',t:'Salzburgo',x:'Trem ~2h25. Cidade antiga e mercado.',n:'Salzburgo · hostel',cut:1},
+  {d:'10',w:'Sex',c:'Salzburgo → Berchtesgaden',t:'Vila alpina',x:'Já em território alemão. Boa chance de neve.',n:'Berchtesgaden · hostel',cut:1},
+  {d:'11',w:'Sáb',c:'Berchtesgaden',t:'Lago Königssee',x:'Dia de natureza.',n:'Berchtesgaden · hostel',cut:1},
+  {d:'12',w:'Dom',c:'Berchtesgaden → Garmisch',t:'Trem pelos Alpes',x:'Trecho longo, chegada à tarde.',n:'Garmisch · hostel'},
+  {d:'13',w:'Seg',c:'Garmisch-Partenkirchen',t:'Vila de esqui',x:'Caminhe pela vila e arredores.',n:'Garmisch · hostel'},
+  {d:'14',w:'Ter',c:'Garmisch → Füssen',t:'Sul da Baviera',x:'Trem regional com troca.',n:'Füssen · hostel'},
+  {d:'15',w:'Qua',c:'Füssen',t:'Neuschwanstein',x:'€21 + €2,50 reserva, horário marcado. 10h–16h.',n:'Füssen · hostel'},
+  {d:'16',w:'Qui',c:'Füssen → Kempten',t:'Allgäu',x:'Um dos maiores mercados da Baviera.',n:'Kempten · hostel',cut:1},
+  {d:'17',w:'Sex',c:'Kempten → Munique',t:'Chegada a Munique',x:'Trem ~1h30. Marienplatz à noite.',n:'Munique · hostel'},
+  {d:'18',w:'Sáb',c:'Munique',t:'Centro histórico',x:'Marienplatz, Viktualienmarkt, Residenz.',n:'Munique · hostel'},
+  {d:'19',w:'Dom',c:'Munique',t:'Parques e museus',x:'Englischer Garten. Comércio fecha, mercados abrem.',n:'Munique · hostel'},
+  {d:'20',w:'Seg',c:'Munique',t:'Compras e despedida',x:'Último dia para lembranças.',n:'Munique · hostel'},
+  {d:'21',w:'Ter',c:'Munique → São Paulo',t:'Volta',x:'Voo à tarde/noite.',n:'No avião'}
 ];
 const TODO=[
-  {id:'alerta',t:'Ativar alerta de preço GRU → Munique para dezembro de 2027',n:'Os voos devem abrir por volta de dezembro de 2026.'},
-  {id:'roupa',t:'Comprar roupa de frio: casaco, bota, luvas e gorro',n:'Pegue em promoção fora de temporada.'},
-  {id:'villach',t:'Combinar as noites em Villach',n:'Cada noite grátis poupa cerca de €35 de hostel.'},
-  {id:'passagem',t:'Comprar a passagem',n:'Janela sugerida: abril a agosto de 2027, se o preço estiver bom.'},
-  {id:'seguro',t:'Contratar seguro-viagem',n:'Exigido em Schengen. Feche mais perto da viagem.'},
-  {id:'hostel',t:'Reservar hostels com cancelamento grátis',n:'Salzburgo, Berchtesgaden, Garmisch, Füssen, Kempten e Munique.'},
-  {id:'castelo',t:'Reservar horário do Neuschwanstein',n:'Só se entra com horário marcado, comprado online. Vale ver o prazo de venda uns meses antes.'},
-  {id:'trens',t:'Comprar o trem Munique → Villach com antecedência',n:'O bilhete mais barato costuma sair bem antes da data.'},
-  {id:'etias',t:'Conferir se o ETIAS já é exigido',n:'Pode virar exigência em 2027. Veja uns dois meses antes.'},
-  {id:'passaporte',t:'Passaporte com validade suficiente',n:''},
-  {id:'cartao',t:'Cartão internacional com boa taxa e algum euro em espécie',n:'IOF e taxa podem somar 3 a 5% dos gastos.'}
+  {id:'alerta',t:'Ativar alerta de preço GRU → MUC dez/2027',n:'Voos abrem ~dez/2026.'},
+  {id:'roupa',t:'Comprar roupa de frio',n:'Casaco, bota, luvas, gorro.'},
+  {id:'villach',t:'Combinar noites em Villach',n:'Cada noite grátis = ~€35.'},
+  {id:'passagem',t:'Comprar passagem',n:'Janela: abr–ago/2027.'},
+  {id:'seguro',t:'Contratar seguro-viagem',n:'Exigido em Schengen.'},
+  {id:'hostel',t:'Reservar hostels',n:'Com cancelamento grátis.'},
+  {id:'castelo',t:'Reservar Neuschwanstein',n:'Horário marcado online.'},
+  {id:'trens',t:'Comprar trem Munique → Villach',n:'Antecedência = barato.'},
+  {id:'etias',t:'Conferir ETIAS',n:'Pode ser exigido em 2027.'},
+  {id:'passaporte',t:'Passaporte válido',n:''},
+  {id:'cartao',t:'Cartão internacional + euro',n:'IOF 3–5%.'}
 ];
 const MALA=[
-  {g:'Roupa',i:['Roupa térmica de baixo, duas peças','Casaco impermeável e quente','Bota impermeável com solado firme','Luvas, gorro e cachecol','Meias de lã, várias','Calça que seque rápido']},
-  {g:'Documentos e dinheiro',i:['Passaporte','Seguro-viagem impresso e no celular','Reservas de hostel e trem','Cartão internacional e um pouco de euro']},
-  {g:'Eletrônicos',i:['Adaptador para tomada europeia (230 V)','Carregador portátil','Fone de ouvido','Chip ou eSIM de dados']},
-  {g:'Saúde e conforto',i:['Remédios de uso pessoal','Hidratante e protetor labial','Tampão de ouvido para dormitório','Toalha de microfibra']},
-  {g:'Hostel',i:['Cadeado para o armário','Sacola dobrável para compras','Garrafa de água reutilizável']}
+  {g:'Roupa',i:['Térmica de baixo (2 pç)','Casaco impermeável','Bota impermeável','Luvas, gorro, cachecol','Meias de lã','Calça de secagem rápida']},
+  {g:'Documentos',i:['Passaporte','Seguro impresso + celular','Reservas hostel/trem','Cartão + euro']},
+  {g:'Eletrônicos',i:['Adaptador 230V','Carregador portátil','Fone','Chip/eSIM']},
+  {g:'Saúde',i:['Remédios pessoais','Hidratante + protetor labial','Tampão de ouvido','Toalha microfibra']},
+  {g:'Hostel',i:['Cadeado','Sacola dobrável','Garrafa reutilizável']}
 ];
 const PHR=[
   ['Guten Tag','Bom dia / boa tarde','gúten tak'],
-  ['Danke / Bitte','Obrigado / de nada, por favor','dánke / bíte'],
-  ['Entschuldigung','Com licença, desculpe','entchúldigung'],
-  ['Sprechen Sie Englisch?','O senhor fala inglês?','chpréchen zi énglich'],
-  ['Einen Glühwein, bitte','Um vinho quente, por favor','áinen glúvain bíte'],
+  ['Danke / Bitte','Obrigado / por favor','dánke / bíte'],
+  ['Entschuldigung','Com licença','entchúldigung'],
+  ['Sprechen Sie Englisch?','Fala inglês?','chpréchen zi énglich'],
+  ['Einen Glühwein, bitte','Vinho quente, por favor','áinen glúvain bíte'],
   ['Die Rechnung, bitte','A conta, por favor','di réchnung bíte'],
   ['Wo ist der Bahnhof?','Onde fica a estação?','vô ist der bánhof'],
-  ['Einmal nach Füssen, bitte','Uma passagem para Füssen, por favor','áinmal nakh fússen bíte'],
-  ['Welcher Gleis?','Qual plataforma?','vélcher glais'],
-  ['Ich habe reserviert','Eu tenho reserva','ich hábe rezervírt'],
+  ['Ich habe reserviert','Tenho reserva','ich hábe rezervírt'],
   ['Frohe Weihnachten!','Feliz Natal!','fróhe váinakhten'],
-  ['Grüß Gott','Olá (sul da Baviera e Áustria)','grüs got']
+  ['Grüß Gott','Olá (sul/Áustria)','grüs got']
 ];
-const GCATS=[['hostel','Hospedagem'],['comida','Comida'],['transp','Transporte'],['passeio','Passeios e compras'],['outros','Outros']];
+const GCATS=[['hostel','Hospedagem'],['comida','Comida'],['transp','Transporte'],['passeio','Passeios'],['outros','Outros']];
 const GBUD={hostel:['hostel'],comida:['comida'],transp:['trem','locais','urbano'],passeio:['entradas','compras'],outros:[]};
+
+function brl(it,v,fx){return it.m==='BRL'?v:v*fx}
+function totals(vals,fx,folga){let s=0;for(const it of ITEMS)s+=brl(it,Number(vals[it.id])||0,fx);return s*(folga?1.1:1)}
+function byCat(vals,fx){const o={};for(const k in CATS)o[k]=0;for(const it of ITEMS)o[it.cat]+=brl(it,Number(vals[it.id])||0,fx);return o}
+function monthsUntil(a,b){return Math.max(1,Math.round((b-a)/86400000/30.4375))}
+function perMonth(t,s,m){return Math.max(0,t-s)/m}
 
 const DEFAULT=()=>({scenario:'completa',values:{...SCEN.completa.v},fx:6.17,folga:false,dAll:'2027-11-30',dVoo:'2027-07-31',deposits:[],checks:{},mala:{},gastos:[]});
 let S=DEFAULT();
 const $=id=>document.getElementById(id);
 const fmt=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
 const fmtE=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'EUR',maximumFractionDigits:2});
-const fmtD=iso=>{const [y,m,d]=iso.split('-');return d+'/'+m+'/'+y};
+const fmtD=iso=>{const[y,m,d]=iso.split('-');return d+'/'+m+'/'+y};
 const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const parseISO=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const parseISO=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
 const uid=()=>Math.random().toString(36).slice(2,9);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-/* ---------- persistência ---------- */
-let ref=null,timer=null,mode='local';
-function setStatus(){
-  $('save-status').textContent= mode==='db' ? 'Tudo salvo na sua conta, disponível em qualquer aparelho.' : 'Salvo só neste navegador. Entre na sua conta Claude para guardar na nuvem.';
-}
-function loadLocal(){try{const raw=localStorage.getItem('natal-baviera-v2');if(raw)return JSON.parse(raw)}catch(e){}return null}
-function save(){
-  clearTimeout(timer);
-  timer=setTimeout(async()=>{
-    try{localStorage.setItem('natal-baviera-v2',JSON.stringify(S))}catch(e){}
-    if(ref){try{await ref.set(S)}catch(e){}}
-  },500);
-}
-async function initRemote(){
+let timer=null;
+function save(){clearTimeout(timer);timer=setTimeout(()=>{try{localStorage.setItem('baviera2027',JSON.stringify(S))}catch(e){}},400)}
+function load(){try{const r=localStorage.getItem('baviera2027');if(r)return JSON.parse(r)}catch(e){}return null}
+
+async function fetchRate(){
   try{
-    if(!window.claude||!window.claude.use)return;
-    const [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
-    if(!db||!user)return;
-    const id=await user.id();
-    const r=db.collection('data/users/'+id).doc('viagem-v2');
-    const snap=await r.get();
-    const ex=snap&&(typeof snap.exists==='function'?snap.exists():snap.exists);
-    const data=ex?(typeof snap.data==='function'?snap.data():snap):null;
-    ref=r;mode='db';
-    if(data&&data.values){S=Object.assign(DEFAULT(),data);renderAll()}
-    else{await r.set(S)}
-    setStatus();
-  }catch(e){ref=null;mode='local';setStatus()}
+    const r=await fetch('https://api.frankfurter.app/latest?from=EUR&to=BRL');
+    if(!r.ok)return;
+    const d=await r.json();
+    const rate=d.rates&&d.rates.BRL;
+    if(rate){$('fx-live').textContent=rate.toFixed(2);S.fx=Math.round(rate*100)/100;$('fx').value=S.fx;update();save()}
+  }catch(e){}
 }
 
-/* ---------- renderização ---------- */
-function renderFlaps(){
-  const dep=parseISO('2027-12-03'),today=parseISO(todayISO());
-  const days=Math.max(0,Math.round((dep-today)/86400000));
-  const s=String(days).padStart(3,'0');
-  $('flaps').innerHTML=[...s].map(c=>'<div class="flap">'+c+'</div>').join('')+'<small>dias para a ida</small>';
+function updateCountdown(){
+  const dep=parseISO('2027-12-03'),now=new Date();now.setHours(0,0,0,0);
+  $('countdown').textContent=Math.max(0,Math.round((dep-now)/86400000)).toLocaleString('pt-BR');
 }
+
+document.querySelectorAll('.section-head').forEach(h=>{
+  h.addEventListener('click',()=>{const s=h.closest('.section');s.setAttribute('aria-expanded',s.getAttribute('aria-expanded')==='true'?'false':'true')});
+  h.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click()}});
+});
+
 function buildSeg(){
   $('seg').innerHTML='';
   for(const k of Object.keys(SCEN)){
-    const b=document.createElement('button');
-    b.type='button';b.textContent=SCEN[k].label;b.setAttribute('aria-pressed',S.scenario===k);
+    const b=document.createElement('button');b.type='button';b.textContent=SCEN[k].label;b.setAttribute('aria-pressed',S.scenario===k);
     b.onclick=()=>{S.scenario=k;S.values={...SCEN[k].v};buildSeg();fillInputs();update();save()};
     $('seg').appendChild(b);
   }
-  $('scen-note').textContent=SCEN[S.scenario].nota;
 }
 function buildItems(){
   const tb=$('items');tb.innerHTML='';
   for(const it of ITEMS){
     const tr=document.createElement('tr');
-    tr.innerHTML='<td><span class="dot" style="background:var('+CATS[it.cat].c+')"></span>'+it.nome+'<small>'+it.nota+'</small></td>'+
-      '<td><div class="unit"><span>'+(it.m==='BRL'?'R$':'€')+'</span><input id="v-'+it.id+'" type="number" inputmode="decimal" min="0" step="any" aria-label="'+it.nome+'"></div></td>'+
-      '<td class="num" id="b-'+it.id+'"></td>';
+    tr.innerHTML='<td><span class="dot" style="background:var('+CATS[it.cat].c+')"></span>'+it.nome+'<small>'+it.nota+'</small></td><td><div class="unit"><span>'+(it.m==='BRL'?'R$':'€')+'</span><input id="v-'+it.id+'" type="number" inputmode="decimal" min="0" step="any" aria-label="'+it.nome+'"></div></td><td class="num" id="b-'+it.id+'"></td>';
     tb.appendChild(tr);
     tr.querySelector('input').addEventListener('input',e=>{S.values[it.id]=parseFloat(e.target.value)||0;update();save()});
   }
 }
-function fillInputs(){
-  for(const it of ITEMS){$('v-'+it.id).value=S.values[it.id]}
-  $('fx').value=S.fx;$('folga').checked=S.folga;$('d-all').value=S.dAll;$('d-voo').value=S.dVoo;
-}
+function fillInputs(){for(const it of ITEMS)$('v-'+it.id).value=S.values[it.id];$('fx').value=S.fx;$('folga').checked=S.folga;$('d-all').value=S.dAll;$('d-voo').value=S.dVoo}
 function savedTotal(){return S.deposits.reduce((a,d)=>a+(Number(d.valor)||0),0)}
 function update(){
   const fx=S.fx||0;
-  for(const it of ITEMS){$('b-'+it.id).textContent=fmt.format(brl(it,Number(S.values[it.id])||0,fx))}
+  for(const it of ITEMS)$('b-'+it.id).textContent=fmt.format(brl(it,Number(S.values[it.id])||0,fx));
   const total=totals(S.values,fx,S.folga),saved=savedTotal(),left=Math.max(0,total-saved);
-  const today=parseISO(todayISO());
-  const mAll=monthsUntil(today,parseISO(S.dAll)),mVoo=monthsUntil(today,parseISO(S.dVoo));
+  const today=parseISO(todayISO()),mAll=monthsUntil(today,parseISO(S.dAll)),mVoo=monthsUntil(today,parseISO(S.dVoo));
   const voo=brl(ITEMS[0],Number(S.values.voo)||0,fx)*(S.folga?1.1:1);
   $('foot-total').textContent=fmt.format(total);
-  $('t-total').textContent=fmt.format(total);
-  $('t-saved').textContent=fmt.format(saved);
-  $('t-left').textContent=fmt.format(left);
-  $('t-month').textContent=fmt.format(perMonth(total,saved,mAll));
+  $('t-total').textContent=fmt.format(total);$('t-saved').textContent=fmt.format(saved);
+  $('t-left').textContent=fmt.format(left);$('t-month').textContent=fmt.format(perMonth(total,saved,mAll));
   const pct=total>0?Math.min(100,Math.round(saved/total*100)):0;
-  $('bar-i').style.width=pct+'%';$('bar').setAttribute('aria-valuenow',pct);
-  $('bar-l').textContent=pct+'% da meta';$('bar-r').textContent=fmt.format(saved)+' de '+fmt.format(total);
-  $('m-all').textContent=fmt.format(perMonth(total,saved,mAll));
-  $('m-all-s').textContent='por mês, para ter o total até '+fmtD(S.dAll)+' ('+mAll+(mAll===1?' mês':' meses')+')';
-  $('m-voo').textContent=fmt.format(perMonth(voo,saved,mVoo));
-  $('m-voo-s').textContent='por mês, só para a passagem até '+fmtD(S.dVoo)+' ('+mVoo+(mVoo===1?' mês':' meses')+')';
-  // barra empilhada
+  $('bar-i').style.width=pct+'%';$('bar-l').textContent=pct+'%';$('bar-r').textContent=fmt.format(saved)+' de '+fmt.format(total);
+  $('m-all').textContent=fmt.format(perMonth(total,saved,mAll));$('m-all-s').textContent=mAll+'m até '+fmtD(S.dAll);
+  $('m-voo').textContent=fmt.format(perMonth(voo,saved,mVoo));$('m-voo-s').textContent=mVoo+'m até '+fmtD(S.dVoo);
   const cats=byCat(S.values,fx),sum=Object.values(cats).reduce((a,b)=>a+b,0)||1;
-  $('stack').innerHTML=Object.keys(CATS).map(k=>'<i style="width:'+(cats[k]/sum*100)+'%;background:var('+CATS[k].c+')" title="'+CATS[k].nome+'"></i>').join('');
-  $('legend').innerHTML=Object.keys(CATS).map(k=>'<div><span><span class="dot" style="background:var('+CATS[k].c+')"></span>'+CATS[k].nome+'</span><b>'+fmt.format(cats[k])+' · '+Math.round(cats[k]/sum*100)+'%</b></div>').join('');
+  $('stack').innerHTML=Object.keys(CATS).map(k=>'<i style="width:'+(cats[k]/sum*100)+'%;background:var('+CATS[k].c+')"></i>').join('');
+  $('legend').innerHTML=Object.keys(CATS).map(k=>'<div><span><span class="dot" style="background:var('+CATS[k].c+')"></span>'+CATS[k].nome+'</span><b>'+fmt.format(cats[k])+'</b></div>').join('');
   renderGastos();
   document.querySelectorAll('.day.cut').forEach(el=>el.classList.toggle('dim',S.scenario==='curta'));
-  $('rot-note').textContent= S.scenario==='curta' ? 'Na versão de 14 dias saem os dias marcados (Salzburgo, Berchtesgaden e Kempten), e a volta passa para 17/12.' : (S.scenario==='enxuta' ? 'Na versão enxuta você fica em Villach até o dia 11 e faz Salzburgo como bate-volta. Isso poupa 3 noites de hostel.' : 'Os dias marcados "corta na versão de 14 dias" podem sair se você precisar apertar o orçamento.');
+  $('rot-note').textContent=S.scenario==='curta'?'Versão de 14 dias: dias marcados saem, volta em 17/12.':(S.scenario==='enxuta'?'Enxuta: Villach até dia 11, Salzburgo bate-volta.':'Dias marcados podem sair na versão curta.');
 }
 function buildDays(){
-  $('tt').innerHTML=DAYS.map(d=>'<div class="day'+(d.cut?' cut':'')+'"><div class="when"><b>'+d.d+'/12</b><span>'+d.w+'</span></div>'+
-    '<div><div class="city">'+d.c+'</div><h3>'+d.t+'</h3><p>'+d.x+'</p>'+(d.cut?'<span class="cuttag">corta na versão de 14 dias</span>':'')+'</div>'+
-    '<span class="night'+(d.free?' free':'')+'">'+d.n+'</span></div>').join('');
+  $('tt').innerHTML=DAYS.map(d=>'<div class="day'+(d.cut?' cut':'')+'"><div class="when"><b>'+d.d+'/12</b><span>'+d.w+'</span></div><div><div class="city">'+d.c+'</div><h3>'+d.t+'</h3><p>'+d.x+'</p>'+(d.cut?'<span class="cuttag">corta na versão curta</span>':'')+'<span class="night'+(d.free?' free':'')+'">'+d.n+'</span></div></div>').join('');
 }
 function renderDeps(){
   const ul=$('deps');ul.innerHTML='';
-  if(!S.deposits.length){ul.innerHTML='<li class="empty">Nenhum depósito ainda. Registre o primeiro acima.</li>';return}
-  const arr=[...S.deposits].sort((a,b)=>b.data.localeCompare(a.data));
-  for(const d of arr){
+  if(!S.deposits.length){ul.innerHTML='<li class="empty">Nenhum depósito ainda.</li>';return}
+  [...S.deposits].sort((a,b)=>b.data.localeCompare(a.data)).forEach(d=>{
     const li=document.createElement('li');
     li.innerHTML='<div><b>'+fmt.format(Number(d.valor)||0)+'</b><small>'+fmtD(d.data)+(d.nota?' · '+esc(d.nota):'')+'</small></div>';
-    const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent='Remover';
-    b.setAttribute('aria-label','Remover depósito de '+fmt.format(Number(d.valor)||0)+' de '+fmtD(d.data));
+    const b=document.createElement('button');b.type='button';b.className='btn-sm';b.textContent='×';
     b.onclick=()=>{S.deposits=S.deposits.filter(x=>x.id!==d.id);renderDeps();update();save()};
     li.appendChild(b);ul.appendChild(li);
-  }
+  });
 }
 function renderGastos(){
-  const fx=S.fx||0;
-  const used={};GCATS.forEach(([k])=>used[k]=0);
+  const fx=S.fx||0;const used={};GCATS.forEach(([k])=>used[k]=0);
   S.gastos.forEach(g=>{used[g.cat]=(used[g.cat]||0)+(Number(g.valor)||0)});
-  let usedTot=0,budTot=0;
-  const html=GCATS.map(([k,nome])=>{
-    const bud=GBUD[k].reduce((a,id)=>a+(Number(S.values[id])||0),0);
-    usedTot+=used[k];budTot+=bud;
+  let uT=0,bT=0;
+  $('gcat').innerHTML=GCATS.map(([k,nome])=>{
+    const bud=GBUD[k].reduce((a,id)=>a+(Number(S.values[id])||0),0);uT+=used[k];bT+=bud;
     const pct=bud>0?Math.min(100,used[k]/bud*100):(used[k]>0?100:0);
-    const over=bud>0&&used[k]>bud;
-    return '<div class="line'+(over?' over':'')+'"><span>'+nome+'</span><span class="mono">'+fmtE.format(used[k])+(bud>0?' de '+fmtE.format(bud):'')+'</span><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
+    return '<div class="cat-line'+(bud>0&&used[k]>bud?' over':'')+'"><span>'+nome+'</span><span class="num" style="font-size:12px">'+fmtE.format(used[k])+(bud>0?' / '+fmtE.format(bud):'')+'</span><div class="bar"><i style="width:'+pct+'%"></i></div></div>';
   }).join('');
-  $('gcat').innerHTML=html;
-  $('gtot').textContent='Gasto até agora: '+fmtE.format(usedTot)+' (cerca de '+fmt.format(usedTot*fx)+'). Orçamento em euro: '+fmtE.format(budTot)+'.';
+  $('gtot').textContent='Total: '+fmtE.format(uT)+' (~'+fmt.format(uT*fx)+')';
   const ul=$('glist');ul.innerHTML='';
-  if(!S.gastos.length){ul.innerHTML='<li class="empty">Nenhum gasto anotado.</li>';return}
+  if(!S.gastos.length){ul.innerHTML='<li class="empty">Nenhum gasto.</li>';return}
   const nomes=Object.fromEntries(GCATS);
-  [...S.gastos].sort((a,b)=>b.data.localeCompare(a.data)).slice(0,12).forEach(g=>{
+  [...S.gastos].sort((a,b)=>b.data.localeCompare(a.data)).slice(0,10).forEach(g=>{
     const li=document.createElement('li');
     li.innerHTML='<div><b>'+fmtE.format(Number(g.valor)||0)+'</b><small>'+fmtD(g.data)+' · '+nomes[g.cat]+(g.nota?' · '+esc(g.nota):'')+'</small></div>';
-    const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent='Remover';
-    b.setAttribute('aria-label','Remover gasto de '+fmtE.format(Number(g.valor)||0));
+    const b=document.createElement('button');b.type='button';b.className='btn-sm';b.textContent='×';
     b.onclick=()=>{S.gastos=S.gastos.filter(x=>x.id!==g.id);update();save()};
     li.appendChild(b);ul.appendChild(li);
   });
@@ -588,55 +579,45 @@ function renderTodo(){
   }
 }
 function renderMala(){
-  const box=$('mala-cols');box.innerHTML='';
+  $('mala-cols').innerHTML='';
   MALA.forEach((grp,gi)=>{
     const c=document.createElement('div');c.className='card';
-    c.innerHTML='<h3>'+grp.g+'</h3><ul class="list todo"></ul>';
+    c.innerHTML='<h3 style="font-size:14px;margin-bottom:4px">'+grp.g+'</h3><ul class="todo"></ul>';
     const ul=c.querySelector('ul');
     grp.i.forEach((txt,ii)=>{
       const key='m'+gi+'-'+ii,li=document.createElement('li');li.className=S.mala[key]?'done':'';
-      li.innerHTML='<label for="'+key+'"><input id="'+key+'" type="checkbox"'+(S.mala[key]?' checked':'')+'><span>'+txt+'</span></label>';
+      li.innerHTML='<label for="'+key+'"><input id="'+key+'" type="checkbox"'+(S.mala[key]?' checked':'')+'><span style="font-size:13px">'+txt+'</span></label>';
       li.querySelector('input').addEventListener('change',e=>{S.mala[key]=e.target.checked;li.className=e.target.checked?'done':'';save()});
       ul.appendChild(li);
     });
-    box.appendChild(c);
+    $('mala-cols').appendChild(c);
   });
 }
-function buildPhr(){
-  $('phr').innerHTML=PHR.map(p=>'<div><b>'+p[0]+'</b><span>'+p[1]+'</span><em>'+p[2]+'</em></div>').join('');
-}
+function buildPhr(){$('phr').innerHTML=PHR.map(p=>'<div><b>'+p[0]+'</b><span class="meaning">'+p[1]+'</span><em>'+p[2]+'</em></div>').join('')}
 function renderAll(){buildSeg();fillInputs();renderDeps();renderTodo();renderMala();update()}
 
-/* ---------- eventos ---------- */
 $('fx').addEventListener('input',e=>{S.fx=parseFloat(e.target.value)||0;update();save()});
 $('folga').addEventListener('change',e=>{S.folga=e.target.checked;update();save()});
 $('d-all').addEventListener('change',e=>{if(e.target.value){S.dAll=e.target.value;update();save()}});
 $('d-voo').addEventListener('change',e=>{if(e.target.value){S.dVoo=e.target.value;update();save()}});
 $('form').addEventListener('submit',e=>{
-  e.preventDefault();
-  const valor=parseFloat($('dep-valor').value);
-  if(!valor||valor<=0)return;
-  S.deposits.push({id:uid(),data:$('dep-data').value||todayISO(),valor,nota:$('dep-nota').value.trim()});
-  $('dep-valor').value='';$('dep-nota').value='';
-  renderDeps();update();save();
+  e.preventDefault();const v=parseFloat($('dep-valor').value);if(!v||v<=0)return;
+  S.deposits.push({id:uid(),data:$('dep-data').value||todayISO(),valor:v,nota:$('dep-nota').value.trim()});
+  $('dep-valor').value='';$('dep-nota').value='';renderDeps();update();save();
 });
 $('gform').addEventListener('submit',e=>{
-  e.preventDefault();
-  const valor=parseFloat($('g-valor').value);
-  if(!valor||valor<=0)return;
-  S.gastos.push({id:uid(),data:$('g-data').value||todayISO(),cat:$('g-cat').value,valor,nota:$('g-nota').value.trim()});
-  $('g-valor').value='';$('g-nota').value='';
-  update();save();
+  e.preventDefault();const v=parseFloat($('g-valor').value);if(!v||v<=0)return;
+  S.gastos.push({id:uid(),data:$('g-data').value||todayISO(),cat:$('g-cat').value,valor:v,nota:$('g-nota').value.trim()});
+  $('g-valor').value='';$('g-nota').value='';update();save();
 });
 
-/* ---------- início ---------- */
-const local=loadLocal();
-if(local&&local.values)S=Object.assign(DEFAULT(),local);
+const local=load();if(local&&local.values)S=Object.assign(DEFAULT(),local);
 $('g-cat').innerHTML=GCATS.map(([k,n])=>'<option value="'+k+'">'+n+'</option>').join('');
-buildItems();buildDays();buildPhr();renderFlaps();
+buildItems();buildDays();buildPhr();updateCountdown();
 $('dep-data').value=todayISO();$('g-data').value=todayISO();
-renderAll();setStatus();
-initRemote();
+renderAll();
+$('save-status').textContent='Dados salvos neste aparelho.';
+fetchRate();
 </script>
 </body>
 </html>
