@@ -255,7 +255,7 @@ tfoot td { font-weight: 700; border-top: 2px solid var(--ink); }
 </nav>
 
 <header class="hero">
-  <h1>Natal na <em>Baviera</em></h1>
+  <h1>Baviera <em>2027</em></h1>
   <p class="lead">Viagem solo, 3 a 21 de dezembro de 2027. Villach como base, vilas dos Alpes, mercados de Natal e Munique no fim.</p>
   <div class="hero-meta">
     <div class="chip"><b>GRU → MUC</b></div>
@@ -475,14 +475,24 @@ let timer=null;
 function save(){clearTimeout(timer);timer=setTimeout(()=>{try{localStorage.setItem('baviera2027',JSON.stringify(S))}catch(e){}},400)}
 function load(){try{const r=localStorage.getItem('baviera2027');if(r)return JSON.parse(r)}catch(e){}return null}
 
-async function fetchRate(){
-  try{
-    const r=await fetch('https://api.frankfurter.app/latest?from=EUR&to=BRL');
-    if(!r.ok)return;
-    const d=await r.json();
-    const rate=d.rates&&d.rates.BRL;
-    if(rate){$('fx-live').textContent=rate.toFixed(2);S.fx=Math.round(rate*100)/100;$('fx').value=S.fx;update();save()}
-  }catch(e){}
+async function fetchRate(retries=3){
+  $('fx-live').textContent='…';
+  for(let i=0;i<retries;i++){
+    try{
+      const r=await fetch('https://api.frankfurter.app/latest?from=EUR&to=BRL',{signal:AbortSignal.timeout(8000)});
+      if(!r.ok){await new Promise(ok=>setTimeout(ok,2000));continue}
+      const d=await r.json();
+      const rate=d.rates&&d.rates.BRL;
+      if(rate){
+        $('fx-live').textContent=rate.toFixed(2);
+        S.fx=Math.round(rate*100)/100;$('fx').value=S.fx;
+        S.fxDate=d.date||new Date().toISOString().slice(0,10);
+        update();save();return
+      }
+    }catch(e){await new Promise(ok=>setTimeout(ok,2000))}
+  }
+  if(S.fx>0)$('fx-live').textContent=S.fx.toFixed(2)+' ⚠';
+  else $('fx-live').textContent='offline';
 }
 
 function updateCountdown(){

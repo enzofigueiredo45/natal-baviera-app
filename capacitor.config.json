@@ -2,5 +2,12 @@
   "appId": "br.com.enzo.natalbaviera",
   "appName": "Baviera 2027",
   "webDir": "www",
-  "backgroundColor": "#1B4332"
+  "backgroundColor": "#1B4332",
+  "server": {
+    "allowNavigation": ["api.frankfurter.app"],
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
 }

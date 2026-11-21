@@ -23,20 +23,52 @@ jobs:
         run: |
           npx cap add android
           npx cap sync android
-      - name: Compilar APK
+      - name: Decodificar keystore
+        if: env.KEYSTORE_BASE64 != ''
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: echo "$KEYSTORE_BASE64" | base64 -d > android/app/baviera-release.jks
+      - name: Compilar APK assinado
+        if: env.KEYSTORE_BASE64 != ''
         working-directory: android
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          cat >> app/build.gradle << 'SIGN'
+
+          android.signingConfigs {
+              release {
+                  storeFile file("baviera-release.jks")
+                  storePassword "baviera2027"
+                  keyAlias "baviera"
+                  keyPassword "baviera2027"
+              }
+          }
+          android.buildTypes.release.signingConfig = android.signingConfigs.release
+          SIGN
+          ./gradlew assembleRelease --no-daemon
+      - name: Compilar APK debug (fallback)
+        if: env.KEYSTORE_BASE64 == ''
+        working-directory: android
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: ./gradlew assembleDebug --no-daemon
       - name: Renomear APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk natal-na-baviera.apk
+        run: |
+          if [ -f android/app/build/outputs/apk/release/app-release.apk ]; then
+            cp android/app/build/outputs/apk/release/app-release.apk baviera-2027.apk
+          else
+            cp android/app/build/outputs/apk/debug/app-debug.apk baviera-2027.apk
+          fi
       - uses: actions/upload-artifact@v4
         with:
-          name: natal-na-baviera-apk
-          path: natal-na-baviera.apk
+          name: baviera-2027-apk
+          path: baviera-2027.apk
       - name: Publicar release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: apk-latest
-          name: Natal na Baviera (APK mais recente)
-          body: Baixe o arquivo natal-na-baviera.apk e instale no Android.
-          files: natal-na-baviera.apk
+          name: Baviera 2027
+          body: Baixe baviera-2027.apk e instale no Android.
+          files: baviera-2027.apk
           make_latest: true
